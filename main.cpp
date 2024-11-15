@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <stdexcept> // Для std::invalid_argument
+#include <stdexcept>
 
 std::vector<double> userInput()
 {
@@ -20,8 +20,8 @@ std::vector<double> userInput()
             return {x, y};
         } catch (const std::invalid_argument& e) {
             std::cerr << e.what() << std::endl;
-            std::cin.clear(); // Очистка флага ошибки
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистка буфера ввода
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }

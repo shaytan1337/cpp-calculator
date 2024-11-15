@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <limits> // Added for std::numeric_limits
+
 
 std::vector<double> userInput()
 {
@@ -40,43 +42,38 @@ std::string getOperation()
     }
 }
 
-double myCalculator(double x, double y, std::string operation)
-{   
-    if (operation == "+")
-    {
+double myCalculator(double x, double y, const std::string& operation)
+{
+    if (operation == "+") {
         std::cout << "You have selected addition operation" << std::endl;
         std::cout << "The result of addition is " << x + y << std::endl;
         return x + y;
-    }
-    else if (operation == "*")
-    {
+    } 
+    else if (operation == "*") {
         std::cout << "You have selected multiplication operation" << std::endl;
         std::cout << "The result of multiplication is " << x * y << std::endl;
         return x * y;
-    }
-    else if (operation == "/")
-    {
+    } 
+    else if (operation == "/") {
         if (y == 0) {
             std::cerr << "Error: Division by zero is not allowed." << std::endl;
-            return -1;
+            return std::numeric_limits<double>::quiet_NaN(); // Return NaN for invalid results
         }
         std::cout << "You have selected division operation" << std::endl;
         std::cout << "The result of division is " << x / y << std::endl;
         return x / y;
-    }
-    else if (operation == "-")
-    {
+    } 
+    else if (operation == "-") {
         std::cout << "You have selected subtraction operation" << std::endl;
         std::cout << "The result of subtraction is " << x - y << std::endl;
         return x - y;
+    } 
+    else {
+        std::cerr << "Unsupported operation..." << std::endl;
+        return std::numeric_limits<double>::quiet_NaN(); // Return NaN for unsupported operations
     }
-    else
-    {
-        std::cout << "Unsupported operation..." << std::endl;
-    }
-
-    return -1;
 }
+
 
 int main()
 {
@@ -86,7 +83,7 @@ int main()
         std::string operation { getOperation() };
         double result = myCalculator(test_it[0], test_it[1], operation);
 
-        std::cout << "Do you want to perform another calculation? (y/n): ";
+        std::cout << "Do you want to perform another calculation? (y/N): ";
         std::cin >> repeat;
     } while (repeat == 'y' || repeat == 'Y');
 
